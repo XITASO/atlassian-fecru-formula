@@ -1,0 +1,17 @@
+{% import_yaml 'atlassian-fecru/defaults.yaml' as default_settings %}
+{% set fecru = salt['pillar.get']('atlassian-fecru', default=default_settings.get('atlassian-fecru'), merge=True) %}
+{% from 'java/map.jinja' import java with context %}
+
+{% do fecru.update({
+  'url': fecru.get('url', 'https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-' + fecru.version + '.zip'),
+  'url_hash': fecru.get('url_hash', 'https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-' + fecru.version + '.zip.md5'),
+  'pid': fecru.dir + '/home/fecru.pid',
+  'java_home': java.jre8.home,
+  'dirs': {
+    'scripts': fecru.dir + '/scripts',
+    'home': fecru.dir + '/home',
+    'extract': fecru.dir + '/extract',
+    'install': fecru.dir + '/install',
+    'current_install': fecru.dir ~ '/extract/fecru-' + fecru.version
+  }
+}) %}

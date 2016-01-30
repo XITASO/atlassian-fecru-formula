@@ -1,0 +1,3 @@
+atlassian-fecru:
+  ajp_port: 8009
+  http_port: 8060

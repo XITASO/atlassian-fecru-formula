@@ -1,0 +1,6 @@
+atlassian-fecru:
+  version: 3.10.2
+  dir: /opt/atlassian/fecru
+  ajp_port: 8009
+  user: fecru
+  group: fecru
