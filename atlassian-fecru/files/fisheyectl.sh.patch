@@ -7,7 +7,7 @@
 +  CUR_NUM_LINES=$( (wc -l $FISHEYE_INST/var/log/fisheye.out 2> /dev/null || echo 0) | awk '{print $1}')
    nohup sh -c "exec $CMD" >> $FISHEYE_INST/var/log/fisheye.out 2>&1 &
 +  PID=$!
-+  timeout=600
++  timeout=3000
 +  while [ "$timeout" -ge 0 -a -z "$(tail -n+$CUR_NUM_LINES $FISHEYE_INST/var/log/fisheye.out|grep 'Server started')" ] ; do
 +    timeout=$((timeout-1))
 +    sleep .1s
@@ -15,7 +15,7 @@
 +  if [ "$timeout" -ge 0 ]; then
 +    echo $PID > $FISHEYE_INST/fecru.pid
 +  else
-+    echo "Failed to start FishEye/Crucible within 60s... Terminating"
++    echo "Failed to start FishEye/Crucible within 300s... Terminating"
 +    exit 1
 +  fi
  else
