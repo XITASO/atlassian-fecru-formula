@@ -1,5 +1,5 @@
 atlassian-fecru:
-  version: 4.0.3
+  version: 4.0.4
   dir: /opt/atlassian/fecru
   ajp_port: 8009
   user: fecru
