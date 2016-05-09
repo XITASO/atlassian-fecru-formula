@@ -5,6 +5,7 @@
 {% do fecru.update({
   'url': fecru.get('url', 'https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-' + fecru.version + '.zip'),
   'url_hash': fecru.get('url_hash', 'https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-' + fecru.version + '.zip.md5'),
+  'source': fecru.get('source', '/tmp/fisheye-' + fecru.version + '.zip'),
   'pid': fecru.dir + '/home/fecru.pid',
   'java_home': java.jre8.home,
   'dirs': {

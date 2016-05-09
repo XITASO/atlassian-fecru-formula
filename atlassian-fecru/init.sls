@@ -41,12 +41,28 @@ fecru-graceful-down:
     - prereq:
       - file: fecru-install
 
+fecru-download:
+  cmd.run:
+    - name: "curl -L --silent '{{ fecru.url }}' > '{{ fecru.source }}'"
+    - unless: "test -f '{{ fecru.source }}'"
+    - prereq:
+      - cmd: fecru-install
+
 fecru-install:
   pkg.installed:
     - pkgs:
       - unzip
       - git
 
+  cmd.run:
+    - name: "unzip -q '{{ fecru.source }}'"
+    - cwd: {{ fecru.dirs.extract }}
+    - unless: "test -d '{{ fecru.dirs.current_install }}'"
+    - require:
+      - file: fecru-extractdir
+      - pkg: fecru-install
+
+{# archive.extracted does not preserve permissions with zip files (https://github.com/saltstack/salt/issues/27207)
   archive.extracted:
     - name: {{ fecru.dirs.extract }}
     - source: {{ fecru.url }}
@@ -59,12 +75,13 @@ fecru-install:
     - require:
       - file: fecru-extractdir
       - pkg: fecru-install
+#}
 
   file.symlink:
     - name: {{ fecru.dirs.install }}
     - target: {{ fecru.dirs.current_install }}
     - require:
-      - archive: fecru-install
+      - cmd: fecru-install
     - watch_in:
       - service: fecru
 
