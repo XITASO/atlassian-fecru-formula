@@ -171,6 +171,7 @@ fecru-config-xml-chmod:
     - name: {{ fecru.dirs.home }}/config.xml
     - user: {{ fecru.user }}
     - group: {{ fecru.group }}
+    - replace: False
     - mode: 640
     - require:
       - cmd: fecru-config-xml
