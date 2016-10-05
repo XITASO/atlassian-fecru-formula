@@ -4,3 +4,4 @@ atlassian-fecru:
   ajp_port: 8009
   user: fecru
   group: fecru
+  fisheye_opts: -Xmx1024m
