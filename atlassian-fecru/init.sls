@@ -191,7 +191,12 @@ fecru-config-xml-http-bind:
   file.accumulated:
     - name: fecru-config-accumulator
     - filename: {{ fecru.dirs.home }}/config.xml
-    - text: '<http bind=":{{ fecru.http_port }}"/>'
+    - text: |
+        <http bind=":{{ fecru.http_port }}"
+          {% if 'http_proxyPort' in fecru %}proxy-port="{{ fecru.http_proxyPort }}"{% endif %}
+          {% if 'http_scheme' in fecru %}proxy-scheme="{{ fecru.http_scheme }}"{% endif %}
+          {% if 'http_proxyName' in fecru %}proxy-host="{{ fecru.http_proxyName }}"{% endif %}
+        />
     - require_in:
       - file: fecru-config-xml
 {% endif %}
