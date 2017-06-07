@@ -3,3 +3,8 @@ books:
     git: "https://github.com/corux/java-formula.git"
   - book: "srv/salt/java"
     link: "../formulas/java/java"
+
+  - book: "srv/formulas/git"
+    git: "https://github.com/corux/git-formula.git"
+  - book: "srv/salt/git"
+    link: "../formulas/git/git"

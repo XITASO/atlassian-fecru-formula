@@ -2,6 +2,7 @@
 
 include:
   - java
+  - git
 
 fecru:
   file.managed:
@@ -52,7 +53,6 @@ fecru-install:
   pkg.installed:
     - pkgs:
       - unzip
-      - git
 
   cmd.run:
     - name: "unzip -q '{{ fecru.source }}'"
