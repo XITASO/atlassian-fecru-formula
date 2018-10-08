@@ -16,5 +16,5 @@ describe port("8060") do
 end
 
 describe command('curl -L localhost:8060') do
-  its(:stdout) { should contain('Welcome to the FishEye setup') }
+  its(:stdout) { should contain('Welcome to the Fisheye setup') }
 end
