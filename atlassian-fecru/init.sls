@@ -10,7 +10,7 @@ fecru:
     - source: salt://atlassian-fecru/files/atlassian-fecru.service
     - template: jinja
     - defaults:
-        config: {{ fecru }}
+        config: {{ fecru|json }}
 
   module.wait:
     - name: service.systemctl_reload
@@ -123,7 +123,7 @@ fecru-script-{{ file }}:
     - mode: 755
     - template: jinja
     - defaults:
-        config: {{ fecru }}
+        config: {{ fecru|json }}
     - require:
       - file: fecru-scriptdir
     - watch_in:
@@ -200,3 +200,4 @@ fecru-config-xml-http-bind:
     - require_in:
       - file: fecru-config-xml
 {% endif %}
+
