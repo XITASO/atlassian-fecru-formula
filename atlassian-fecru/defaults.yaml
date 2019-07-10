@@ -1,6 +1,6 @@
 atlassian-fecru:
-  version: 4.7.0
   dir: /opt/atlassian/fecru
-  user: fecru
-  group: fecru
   fisheye_opts: -Xmx1024m
+  group: fecru
+  user: fecru
+  version: 4.7.1
