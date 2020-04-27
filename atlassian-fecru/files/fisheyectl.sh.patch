@@ -1,9 +1,9 @@
---- fisheyectl.sh	2015-12-30 23:00:39.323145257 +0000
-+++ fisheyectl.sh-with-pid	2015-12-30 23:12:47.662769775 +0000
+--- fisheyectl.sh	2020-04-27 12:00:39.323145257 +0000
++++ fisheyectl.sh-with-pid	2020-04-27 12:12:47.662769775 +0000
 @@ -54,7 +54,20 @@
    mkdir -p $FISHEYE_INST/var/log
-   CMD="$FISHEYE_CMD $@ $FISHEYE_ARGS"
-   echo "Starting FishEye/Crucible... Output redirected to $FISHEYE_INST/var/log/fisheye.out"
+   CMD="$JAVACMD $FISHEYE_OPTS $FISHEYE_JVM_FLAGS -jar $FISHEYE_HOME/fisheyeboot.jar $@ $FISHEYE_ARGS"
+   echo "Starting Fisheye/Crucible... Output redirected to $FISHEYE_INST/var/log/fisheye.out"
 +  CUR_NUM_LINES=$( (wc -l $FISHEYE_INST/var/log/fisheye.out 2> /dev/null || echo 0) | awk '{print $1}')
    nohup sh -c "exec $CMD" >> $FISHEYE_INST/var/log/fisheye.out 2>&1 &
 +  PID=$!
@@ -19,5 +19,5 @@
 +    exit 1
 +  fi
  else
-   exec $FISHEYE_CMD $@ $FISHEYE_ARGS
- fi
+   # FISHEYE_OPTS may contain -Xmx, don't use it for 'stop' and other commands
+   CMD="$JAVACMD $FISHEYE_JVM_FLAGS -jar $FISHEYE_HOME/fisheyeboot.jar $@ $FISHEYE_ARGS"

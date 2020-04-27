@@ -139,8 +139,8 @@ fecru-fisheyectl.sh-pidfile-patch:
     - source: salt://atlassian-fecru/files/fisheyectl.sh.patch
 
   cmd.run:
-    - name: patch -N --silent < /tmp/fisheyectl.sh.patch
-    - onlyif: nohup patch -N --dry-run --silent < /tmp/fisheyectl.sh.patch 2>/dev/null
+    - name: patch --forward --input /tmp/fisheyectl.sh.patch
+    - onlyif: nohup patch --forward --dry-run --silent --input /tmp/fisheyectl.sh.patch 2>/dev/null
     - cwd: {{ fecru.dirs.install }}/bin
     - require:
       - pkg: fecru-fisheyectl.sh-pidfile-patch
