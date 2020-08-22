@@ -1,23 +1,23 @@
---- fisheyectl.sh	2020-04-27 12:00:39.323145257 +0000
-+++ fisheyectl.sh-with-pid	2020-04-27 12:12:47.662769775 +0000
-@@ -54,7 +54,20 @@
-   mkdir -p $FISHEYE_INST/var/log
-   CMD="$JAVACMD $FISHEYE_OPTS $FISHEYE_JVM_FLAGS -jar $FISHEYE_HOME/fisheyeboot.jar $@ $FISHEYE_ARGS"
-   echo "Starting Fisheye/Crucible... Output redirected to $FISHEYE_INST/var/log/fisheye.out"
-+  CUR_NUM_LINES=$( (wc -l $FISHEYE_INST/var/log/fisheye.out 2> /dev/null || echo 0) | awk '{print $1}')
-   nohup sh -c "exec $CMD" >> $FISHEYE_INST/var/log/fisheye.out 2>&1 &
-+  PID=$!
-+  timeout=3000
-+  while [ "$timeout" -ge 0 -a -z "$(tail -n+$CUR_NUM_LINES $FISHEYE_INST/var/log/fisheye.out|grep 'Server started')" ] ; do
-+    timeout=$((timeout-1))
-+    sleep .1s
-+  done
-+  if [ "$timeout" -ge 0 ]; then
-+    echo $PID > $FISHEYE_INST/fecru.pid
-+  else
-+    echo "Failed to start FishEye/Crucible within 300s... Terminating"
-+    exit 1
-+  fi
- else
-   # FISHEYE_OPTS may contain -Xmx, don't use it for 'stop' and other commands
-   CMD="$JAVACMD $FISHEYE_JVM_FLAGS -jar $FISHEYE_HOME/fisheyeboot.jar $@ $FISHEYE_ARGS"
+--- fisheyectl.sh       2020-07-03 14:29:00.000000000 +0200
++++ fisheyectl.sh-with-pid      2020-08-22 18:27:26.106977400 +0200
+@@ -55,7 +55,20 @@
+     mkdir -p $FISHEYE_INST/var/log
+     CMD="$JAVACMD $FISHEYE_OPTS $FISHEYE_JVM_FLAGS -jar $FISHEYE_HOME/fisheyeboot.jar $@ $FISHEYE_ARGS"
+     echo "Starting Fisheye/Crucible... Output redirected to $FISHEYE_INST/var/log/fisheye.out"
++    CUR_NUM_LINES=$( (wc -l $FISHEYE_INST/var/log/fisheye.out 2> /dev/null || echo 0) | awk '{print $1}')
+     nohup sh -c "exec $CMD" >> $FISHEYE_INST/var/log/fisheye.out 2>&1 &
++    PID=$!
++    timeout=3000
++    while [ "$timeout" -ge 0 -a -z "$(tail -n+$CUR_NUM_LINES $FISHEYE_INST/var/log/fisheye.out|grep 'Server started')" ] ; do
++      timeout=$((timeout-1))
++      sleep .1s
++    done
++    if [ "$timeout" -ge 0 ]; then
++      echo $PID > $FISHEYE_INST/fecru.pid
++    else
++      echo "Failed to start FishEye/Crucible within 300s... Terminating"
++      exit 1
++    fi
+     ;;
+   "run")
+     CMD="$JAVACMD $FISHEYE_OPTS $FISHEYE_JVM_FLAGS -jar $FISHEYE_HOME/fisheyeboot.jar $@ $FISHEYE_ARGS"
